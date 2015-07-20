@@ -1,0 +1,29 @@
+{
+  "name": "call-limit",
+  "version": "1.0.0",
+  "description": "Limit the number of simultaneous calls to an async function",
+  "main": "index.js",
+  "scripts": {
+    "prepublish": "babel call-limit.js --out-dir es5",
+    "test": "tap test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iarna/call-limit"
+  },
+  "author": "Rebecca Turner <me@re-becca.org>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iarna/call-limit/issues"
+  },
+  "homepage": "https://npmjs.com/packages/call-limit",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "babel": "^5.0.2",
+    "tap": "^1.0.0"
+  },
+  "engine": {
+    "node": ">=0.10.x"
+  }
+}
