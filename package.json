@@ -1,6 +1,6 @@
 {
   "name": "call-limit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Limit the number of simultaneous calls to an async function",
   "main": "index.js",
   "scripts": {
@@ -17,8 +17,7 @@
     "url": "https://github.com/iarna/call-limit/issues"
   },
   "homepage": "https://npmjs.com/packages/call-limit",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel": "^5.0.2",
     "tap": "^1.0.0"
