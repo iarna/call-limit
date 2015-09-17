@@ -2,7 +2,7 @@
 
 const defaultMaxRunning = 50
 
-var limit = module.exports = function (func, maxRunning) {
+const limit = module.exports = (func, maxRunning) => {
   let running = 0
   const queue = []
   if (!maxRunning) maxRunning = defaultMaxRunning
@@ -15,10 +15,10 @@ var limit = module.exports = function (func, maxRunning) {
     }
     const cb = typeof args[args.length-1] === 'function' && args.pop()
     ++ running
-    args.push(function () {
+    args.push(() => {
       const cbargs = arguments
       -- running
-      cb && process.nextTick(function() {
+      cb && process.nextTick(() => {
         cb.apply(self, cbargs)
       })
       if (queue.length) {
@@ -30,7 +30,7 @@ var limit = module.exports = function (func, maxRunning) {
   }
 }
 
-module.exports.method = function (classOrObj, method, maxRunning) {
+module.exports.method = (classOrObj, method, maxRunning) => {
   if (typeof classOrObj === 'function') {
     var func = classOrObj.prototype[method]
     classOrObj.prototype[method] = limit(func, maxRunning)

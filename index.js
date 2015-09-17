@@ -2,7 +2,7 @@
 
 function detect() {
   try {
-    eval('let a = 1; const b = 2')
+    eval('let a = 1; const b = 2; () => {}')
     return true
   }
   catch (e) {
