@@ -15,7 +15,7 @@ const limit = module.exports = (func, maxRunning) => {
     }
     const cb = typeof args[args.length-1] === 'function' && args.pop()
     ++ running
-    args.push(() => {
+    args.push(function () {
       const cbargs = arguments
       -- running
       cb && process.nextTick(() => {
