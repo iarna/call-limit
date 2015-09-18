@@ -1,6 +1,6 @@
 {
   "name": "call-limit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Limit the number of simultaneous calls to an async function",
   "main": "index.js",
   "scripts": {
