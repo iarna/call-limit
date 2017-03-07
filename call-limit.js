@@ -10,7 +10,7 @@ var limit = module.exports = function (func, maxRunning) {
     var self = this
     var args = Array.prototype.slice.call(arguments)
     if (running >= maxRunning) {
-      queue.push(args)
+      queue.push({self: this, args: args})
       return
     }
     var cb = typeof args[args.length-1] === 'function' && args.pop()
@@ -23,7 +23,7 @@ var limit = module.exports = function (func, maxRunning) {
       })
       if (queue.length) {
         var next = queue.shift()
-        limited.apply(self, next)
+        limited.apply(next.self, next.args)
       }
     })
     func.apply(self, args)
