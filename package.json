@@ -2,9 +2,8 @@
   "name": "call-limit",
   "version": "1.0.3",
   "description": "Limit the number of simultaneous calls to an async function",
-  "main": "index.js",
+  "main": "call-limit.js",
   "scripts": {
-    "prepublish": "babel call-limit.js --out-dir es5",
     "test": "tap test/*.js"
   },
   "repository": {
@@ -19,10 +18,9 @@
   "homepage": "https://npmjs.com/packages/call-limit",
   "dependencies": {},
   "devDependencies": {
-    "babel": "^5.0.2",
     "tap": "^1.0.0"
   },
-  "engine": {
-    "node": ">=0.10.x"
-  }
+  "files": [
+    "call-limit.js"
+  ]
 }

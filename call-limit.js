@@ -1,28 +1,28 @@
 "use strict"
 
-const defaultMaxRunning = 50
+var defaultMaxRunning = 50
 
-const limit = module.exports = (func, maxRunning) => {
-  let running = 0
-  const queue = []
+var limit = module.exports = function (func, maxRunning) {
+  var running = 0
+  var queue = []
   if (!maxRunning) maxRunning = defaultMaxRunning
   return function limited () {
-    const self = this
-    const args = Array.prototype.slice.call(arguments)
+    var self = this
+    var args = Array.prototype.slice.call(arguments)
     if (running >= maxRunning) {
       queue.push(args)
       return
     }
-    const cb = typeof args[args.length-1] === 'function' && args.pop()
+    var cb = typeof args[args.length-1] === 'function' && args.pop()
     ++ running
     args.push(function () {
-      const cbargs = arguments
+      var cbargs = arguments
       -- running
-      cb && process.nextTick(() => {
+      cb && process.nextTick(function () {
         cb.apply(self, cbargs)
       })
       if (queue.length) {
-        const next = queue.shift()
+        var next = queue.shift()
         limited.apply(self, next)
       }
     })
@@ -30,7 +30,7 @@ const limit = module.exports = (func, maxRunning) => {
   }
 }
 
-module.exports.method = (classOrObj, method, maxRunning) => {
+module.exports.method = function (classOrObj, method, maxRunning) {
   if (typeof classOrObj === 'function') {
     var func = classOrObj.prototype[method]
     classOrObj.prototype[method] = limit(func, maxRunning)

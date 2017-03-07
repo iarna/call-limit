@@ -1,6 +1,6 @@
 'use strict'
 var test = require('tap').test
-var limit = require('../index.js')
+var limit = require('../call-limit.js')
 
 
 test('limit', function (t) {
