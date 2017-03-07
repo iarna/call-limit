@@ -97,3 +97,39 @@ test('limit-class-method', function (t) {
     t.is(completed, 3, 'All completed')
   }
 })
+
+test('promise', function (t) {
+  if (!global.Promise) return
+  t.plan(5)
+  var called = 0
+  var completed = 0
+  var finishers = []
+  var limited = limit.promise(function (num) {
+    ++ called
+    return new Promise(function (resolve) {
+      finishers.push(resolve)
+    })
+  }, 2)
+  for (var ii = 0; ii < 3; ++ii) {
+    limited(ii + 1).then(function () {
+      ++ completed
+    })
+  }
+  setImmediate(function () {
+    t.is(called, 2, 'Immediately queued 2 callbacks')
+    t.is(completed, 0, 'With no completion yet')
+    // immediately complete one of them...
+    finishers.shift()()
+    setImmediate(afterCompletion)
+  })
+  function afterCompletion () {
+    t.is(completed, 1, 'Calling the finisher completed the first one')
+    t.is(called, 3,'Third action was started')
+    finishers.shift()()
+    finishers.shift()()
+    setImmediate(afterAllDone)
+  }
+  function afterAllDone () {
+    t.is(completed, 3, 'All completed')
+  }
+})
