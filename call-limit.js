@@ -58,10 +58,13 @@ module.exports.promise = function (func, maxRunning) {
         ++ running
         resolve(
           func.apply(self, args)
-          .then(finish, function (err) {
+          .then(function (value) {
+            finish()
+            return value
+          }, function (err) {
             finish(err)
             throw err
-           }))
+          }))
       }
 
       function finish () {
