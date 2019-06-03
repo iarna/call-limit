@@ -2,17 +2,16 @@
 const test = require('tap').test
 const limit = require('../call-limit.js')
 
-
 test('limit', function (t) {
   t.plan(5)
   let called = 0
   let completed = 0
   const finishers = []
   const limited = limit(function (num, cb) {
-    ++ called
+    ++called
     finishers.push(cb)
   }, 2)
-  ;[1,2,3].forEach(function (num) { limited(num, function () { ++ completed }) })
+  ;[1, 2, 3].forEach(function (num) { limited(num, function () { ++completed }) })
   setImmediate(function () {
     t.is(called, 2, 'Immediately queued 2 callbacks')
     t.is(completed, 0, 'With no completion yet')
@@ -22,7 +21,7 @@ test('limit', function (t) {
   })
   function afterCompletion () {
     t.is(completed, 1, 'Calling the finisher completed the first one')
-    t.is(called, 3,'Third action was started')
+    t.is(called, 3, 'Third action was started')
     finishers.shift()()
     finishers.shift()()
     setImmediate(afterAllDone)
@@ -39,12 +38,12 @@ test('limit-obj-method', function (t) {
   const finishers = []
   const example = {
     test: function (num, cb) {
-      ++ called
+      ++called
       finishers.push(cb)
     }
   }
   limit.method(example, 'test', 2)
-  ;[1,2,3].forEach(function (num) { example.test(num, function () { ++ completed }) })
+  ;[1, 2, 3].forEach(function (num) { example.test(num, function () { ++completed }) })
   setImmediate(function () {
     t.is(called, 2, 'Immediately queued 2 callbacks')
     t.is(completed, 0, 'With no completion yet')
@@ -54,7 +53,7 @@ test('limit-obj-method', function (t) {
   })
   function afterCompletion () {
     t.is(completed, 1, 'Calling the finisher completed the first one')
-    t.is(called, 3,'Third action was started')
+    t.is(called, 3, 'Third action was started')
     finishers.shift()()
     finishers.shift()()
     setImmediate(afterAllDone)
@@ -72,13 +71,13 @@ test('limit-class-method', function (t) {
   function Example () {}
   Example.prototype = {
     test: function (num, cb) {
-      ++ called
+      ++called
       finishers.push(cb)
     }
   }
   limit.method(Example, 'test', 2)
   const example = new Example()
-  ;[1,2,3].forEach(function (num) { example.test(num, function () { ++ completed }) })
+  ;[1, 2, 3].forEach(function (num) { example.test(num, function () { ++completed }) })
   setImmediate(function () {
     t.is(called, 2, 'Immediately queued 2 callbacks')
     t.is(completed, 0, 'With no completion yet')
@@ -88,7 +87,7 @@ test('limit-class-method', function (t) {
   })
   function afterCompletion () {
     t.is(completed, 1, 'Calling the finisher completed the first one')
-    t.is(called, 3,'Third action was started')
+    t.is(called, 3, 'Third action was started')
     finishers.shift()()
     finishers.shift()()
     setImmediate(afterAllDone)
@@ -105,14 +104,14 @@ test('promise', function (t) {
   let completed = 0
   const finishers = []
   const limited = limit.promise(function (num) {
-    ++ called
+    ++called
     return new Promise(function (resolve) {
       finishers.push(resolve)
     })
   }, 2)
   for (let ii = 0; ii < 3; ++ii) {
     limited(ii + 1).then(function () {
-      ++ completed
+      ++completed
     })
   }
   setImmediate(function () {
@@ -124,7 +123,7 @@ test('promise', function (t) {
   })
   function afterCompletion () {
     t.is(completed, 1, 'Calling the finisher completed the first one')
-    t.is(called, 3,'Third action was started')
+    t.is(called, 3, 'Third action was started')
     finishers.shift()()
     finishers.shift()()
     setImmediate(afterAllDone)
@@ -141,7 +140,7 @@ test('limit-promiseobj-method', function (t) {
   const finishers = []
   const example = {
     test: function (num) {
-      ++ called
+      ++called
       return new Promise(resolve => {
         finishers.push(resolve)
       })
@@ -150,7 +149,7 @@ test('limit-promiseobj-method', function (t) {
   limit.promise.method(example, 'test', 2)
   for (let ii = 0; ii < 3; ++ii) {
     example.test(ii + 1).then(function () {
-      ++ completed
+      ++completed
     })
   }
   setImmediate(function () {
@@ -162,7 +161,7 @@ test('limit-promiseobj-method', function (t) {
   })
   function afterCompletion () {
     t.is(completed, 1, 'Calling the finisher completed the first one')
-    t.is(called, 3,'Third action was started')
+    t.is(called, 3, 'Third action was started')
     finishers.shift()()
     finishers.shift()()
     setImmediate(afterAllDone)
@@ -180,7 +179,7 @@ test('limit-promiseclass-method', function (t) {
   function Example () {}
   Example.prototype = {
     test: function (num, cb) {
-      ++ called
+      ++called
       return new Promise(resolve => {
         finishers.push(resolve)
       })
@@ -190,7 +189,7 @@ test('limit-promiseclass-method', function (t) {
   const example = new Example()
   for (let ii = 0; ii < 3; ++ii) {
     example.test(ii + 1).then(function () {
-      ++ completed
+      ++completed
     })
   }
   setImmediate(function () {
@@ -202,7 +201,7 @@ test('limit-promiseclass-method', function (t) {
   })
   function afterCompletion () {
     t.is(completed, 1, 'Calling the finisher completed the first one')
-    t.is(called, 3,'Third action was started')
+    t.is(called, 3, 'Third action was started')
     finishers.shift()()
     finishers.shift()()
     setImmediate(afterAllDone)

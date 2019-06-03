@@ -4,7 +4,13 @@
   "description": "Limit the number of simultaneous calls to an async function",
   "main": "call-limit.js",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/*.js",
+    "prerelease": "npm t",
+    "release": "standard-version -s",
+    "postrelease": "npm publish && git push --follow-tags",
+    "pretest": "iarna-standard",
+    "update-coc": "weallbehave -o . && git add CODE_OF_CONDUCT.md && git commit -m 'docs(coc): updated CODE_OF_CONDUCT.md'",
+    "update-contrib": "weallcontribute -o . && git add CONTRIBUTING.md && git commit -m 'docs(contributing): updated CONTRIBUTING.md'"
   },
   "repository": {
     "type": "git",
@@ -18,7 +24,11 @@
   "homepage": "https://npmjs.com/packages/call-limit",
   "dependencies": {},
   "devDependencies": {
-    "tap": "^14.2.0"
+    "tap": "^14.2.0",
+    "weallbehave": "*",
+    "weallcontribute": "*",
+    "@iarna/standard": "*",
+    "standard-version": "*"
   },
   "files": [
     "call-limit.js"

@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 const defaultMaxRunning = 50
 
@@ -14,12 +14,12 @@ const limit = module.exports = function (func, maxRunning) {
     }
   }
   function callNext () {
-    if (!state.queue.length) return
+    if (state.queue.length === 0) return
     const next = state.queue.shift()
     callFunc(next.obj, next.args)
   }
   function callFunc (obj, args) {
-    const cb = typeof args[args.length-1] === 'function' && args.pop()
+    const cb = typeof args[args.length - 1] === 'function' && args.pop()
     try {
       ++state.running
       func.apply(obj, args.concat(function () {
@@ -59,7 +59,7 @@ module.exports.promise = function (func, maxRunning) {
     }
   }
   function callNext () {
-    if (!state.queue.length) return
+    if (state.queue.length === 0) return
     const next = state.queue.shift()
     next.resolve(callFunc(next.obj, next.args))
   }
