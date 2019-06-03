@@ -1,14 +1,14 @@
 'use strict'
-var test = require('tap').test
-var limit = require('../call-limit.js')
+const test = require('tap').test
+const limit = require('../call-limit.js')
 
 
 test('limit', function (t) {
   t.plan(5)
-  var called = 0
-  var completed = 0
-  var finishers = []
-  var limited = limit(function (num, cb) {
+  let called = 0
+  let completed = 0
+  const finishers = []
+  const limited = limit(function (num, cb) {
     ++ called
     finishers.push(cb)
   }, 2)
@@ -34,10 +34,10 @@ test('limit', function (t) {
 
 test('limit-obj-method', function (t) {
   t.plan(5)
-  var called = 0
-  var completed = 0
-  var finishers = []
-  var example = {
+  let called = 0
+  let completed = 0
+  const finishers = []
+  const example = {
     test: function (num, cb) {
       ++ called
       finishers.push(cb)
@@ -66,9 +66,9 @@ test('limit-obj-method', function (t) {
 
 test('limit-class-method', function (t) {
   t.plan(5)
-  var called = 0
-  var completed = 0
-  var finishers = []
+  let called = 0
+  let completed = 0
+  const finishers = []
   function Example () {}
   Example.prototype = {
     test: function (num, cb) {
@@ -77,7 +77,7 @@ test('limit-class-method', function (t) {
     }
   }
   limit.method(Example, 'test', 2)
-  var example = new Example()
+  const example = new Example()
   ;[1,2,3].forEach(function (num) { example.test(num, function () { ++ completed }) })
   setImmediate(function () {
     t.is(called, 2, 'Immediately queued 2 callbacks')
@@ -101,16 +101,16 @@ test('limit-class-method', function (t) {
 test('promise', function (t) {
   if (!global.Promise) return
   t.plan(5)
-  var called = 0
-  var completed = 0
-  var finishers = []
-  var limited = limit.promise(function (num) {
+  let called = 0
+  let completed = 0
+  const finishers = []
+  const limited = limit.promise(function (num) {
     ++ called
     return new Promise(function (resolve) {
       finishers.push(resolve)
     })
   }, 2)
-  for (var ii = 0; ii < 3; ++ii) {
+  for (let ii = 0; ii < 3; ++ii) {
     limited(ii + 1).then(function () {
       ++ completed
     })
@@ -136,10 +136,10 @@ test('promise', function (t) {
 
 test('limit-promiseobj-method', function (t) {
   t.plan(5)
-  var called = 0
-  var completed = 0
-  var finishers = []
-  var example = {
+  let called = 0
+  let completed = 0
+  const finishers = []
+  const example = {
     test: function (num) {
       ++ called
       return new Promise(resolve => {
@@ -148,7 +148,7 @@ test('limit-promiseobj-method', function (t) {
     }
   }
   limit.promise.method(example, 'test', 2)
-  for (var ii = 0; ii < 3; ++ii) {
+  for (let ii = 0; ii < 3; ++ii) {
     example.test(ii + 1).then(function () {
       ++ completed
     })
@@ -174,9 +174,9 @@ test('limit-promiseobj-method', function (t) {
 
 test('limit-promiseclass-method', function (t) {
   t.plan(5)
-  var called = 0
-  var completed = 0
-  var finishers = []
+  let called = 0
+  let completed = 0
+  const finishers = []
   function Example () {}
   Example.prototype = {
     test: function (num, cb) {
@@ -187,8 +187,8 @@ test('limit-promiseclass-method', function (t) {
     }
   }
   limit.promise.method(Example, 'test', 2)
-  var example = new Example()
-  for (var ii = 0; ii < 3; ++ii) {
+  const example = new Example()
+  for (let ii = 0; ii < 3; ++ii) {
     example.test(ii + 1).then(function () {
       ++ completed
     })
