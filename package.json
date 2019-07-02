@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/iarna/call-limit/issues"
   },
-  "homepage": "https://npmjs.com/packages/call-limit",
+  "homepage": "https://npmjs.com/package/call-limit",
   "dependencies": {},
   "devDependencies": {
     "tap": "^14.2.0",
